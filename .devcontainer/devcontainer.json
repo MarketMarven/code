@@ -1,0 +1,80 @@
+{
+    // Base image: .NET 8 SDK, which provides the ASP.NET Core Runtime and development tools.
+    "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+    "name": "Full-Stack Polyglot Cloud Native DevContainer (.NET, Go, Node, PHP)",
+
+    "features": {
+        // --- Runtimes and Languages ---
+        // .NET is provided by the base image
+        "ghcr.io/devcontainers/features/go:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "lts" // Latest LTS version of Node.js via NVM, yarn, and pnpm
+        },
+        "ghcr.io/devcontainers/features/php:1": {
+            "version": "latest", // Install the latest stable PHP version
+            "installComposer": true // Install Composer (PHP package manager)
+        },
+
+        // --- Cloud Native Tooling ---
+        // 1. Docker-in-Docker: Essential for building and running containers inside the dev container.
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "moby": true
+        },
+        // 2. Kubernetes and Helm
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+            "version": "latest",
+            "helm": "latest",
+            "kubectl": "latest"
+        },
+        // 3. Cloud Provider CLIs: Azure CLI and AWS CLI
+        "ghcr.io/devcontainers/features/azure-cli:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/aws-cli:1": {
+            "version": "latest"
+        },
+        // 4. GitHub CLI
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "latest"
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "editor.tabSize": 4,
+                "dotnet.defaultSolution": "",
+                "go.toolsManagement.autoSetGopath": true 
+            },
+            "extensions": [
+                // .NET Extensions
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                
+                // Go Extensions
+                "golang.go", 
+
+                // Node.js / Web Development Extensions
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                
+                // PHP Extensions (Including Language Server & Debugger)
+                "felixfbecker.php-debug", // PHP Debugger (XDebug)
+                "devsense.phptools-vscode", // PHP Language Support
+
+                // Cloud Native Extensions
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "GitHub.vscode-github-actions",
+                "HashiCorp.terraform"
+            ]
+        }
+    },
+
+    // Forward common ports for .NET (5000/5001), Node.js (3000), and general web servers (8080/80)
+    "forwardPorts": [5000, 5001, 3000, 8080, 80],
+    "remoteUser": "vscode"
+}
